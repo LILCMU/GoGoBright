@@ -1,0 +1,5 @@
+Library need to store temp value for stability
+if request value -> stream value to library temp at constant rate
+when call library function just used value from temp
+
+Due to HW issues -> MotorA,B Sensor4 can't be used.
