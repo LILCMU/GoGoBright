@@ -64,30 +64,30 @@ public:
 
   //* Servo functions
   //? set servos to interact with ..
-  bool talk_to_servo(String servo_port);
+  bool talkToServo(String servo_port);
   //? set servos head to input head_angle
-  bool servo_set_head(int head_angle);
+  bool setServoHead(int head_angle);
   //? turn servos clockwise by input angle
-  bool servo_turn_cw(int cw_angle);
+  bool turnServoCW(int cw_angle);
   //? turn servos counter-clockwise by input angle
-  bool servo_turn_ccw(int ccw_angle);
+  bool turnServoCCW(int ccw_angle);
 
   //* Motor functions
   //? set motors to interact with ..
-  bool talk_to_motor(String motor_port);
+  bool talkToMotor(String motor_port);
   //? set motors power
-  bool motor_power(int power);
+  bool setMotorPower(int power);
   //? turn motors on or off
-  bool motor_on(void);
-  bool motor_off(void);
+  bool turnMotorON(void);
+  bool turnMotorOFF(void);
   //? turn motors direction
-  bool motor_turn_cw(void);
-  bool motor_turn_ccw(void);
-  bool motor_toggle_direction(void);
+  bool turnMotorCW(void);
+  bool turnMotorCCW(void);
+  bool toggleMotorDirection(void);
 
   //* I2C onboard functions
-  bool i2c_write(uint8_t addr, uint8_t reg, uint8_t value);
-  uint8_t i2c_read(uint8_t addr, uint8_t reg);
+  bool i2cWrite(uint8_t addr, uint8_t reg, uint8_t value);
+  uint8_t i2cRead(uint8_t addr, uint8_t reg);
 };
 
 #endif

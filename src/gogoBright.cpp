@@ -32,7 +32,7 @@ bool gogobright_library::begin(int8_t i2cAddr)
 int gogobright_library::readInput(int port)
 {
     // if (port < 1 || port > 4)
-    if (port < 1 || port > 3) //* temorary fix due to hw issues
+    if (port < 1 || port > 3) //* temporary fix due to hw issues
         return 0;
 
     uint8_t val_byte;
@@ -54,7 +54,7 @@ int gogobright_library::readInput(int port)
     return val + val_byte;
 }
 
-bool gogobright_library::talk_to_servo(String servo_port)
+bool gogobright_library::talkToServo(String servo_port)
 {
     uint8_t servoBits = 0;
 
@@ -92,7 +92,7 @@ bool gogobright_library::talk_to_servo(String servo_port)
 
     return true;
 }
-bool gogobright_library::servo_set_head(int head_angle)
+bool gogobright_library::setServoHead(int head_angle)
 {
     if (head_angle < 0 || head_angle > 180)
         return false;
@@ -104,7 +104,7 @@ bool gogobright_library::servo_set_head(int head_angle)
 
     return true;
 }
-bool gogobright_library::servo_turn_cw(int cw_angle)
+bool gogobright_library::turnServoCW(int cw_angle)
 {
     if (cw_angle < 0 || cw_angle > 180)
         return false;
@@ -116,7 +116,7 @@ bool gogobright_library::servo_turn_cw(int cw_angle)
 
     return true;
 }
-bool gogobright_library::servo_turn_ccw(int ccw_angle)
+bool gogobright_library::turnServoCCW(int ccw_angle)
 {
     if (ccw_angle < 0 || ccw_angle > 180)
         return false;
@@ -129,7 +129,7 @@ bool gogobright_library::servo_turn_ccw(int ccw_angle)
     return true;
 }
 
-bool gogobright_library::talk_to_motor(String motor_port)
+bool gogobright_library::talkToMotor(String motor_port)
 {
     uint8_t motorBits = 0;
     motor_port.toLowerCase();
@@ -164,7 +164,7 @@ bool gogobright_library::talk_to_motor(String motor_port)
 
     return true;
 }
-bool gogobright_library::motor_power(int power)
+bool gogobright_library::setMotorPower(int power)
 {
     if (power < 0 || power > 100)
         return false;
@@ -176,7 +176,7 @@ bool gogobright_library::motor_power(int power)
 
     return true;
 }
-bool gogobright_library::motor_on(void)
+bool gogobright_library::turnMotorON(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_ON, 1))
     {
@@ -185,7 +185,7 @@ bool gogobright_library::motor_on(void)
 
     return true;
 }
-bool gogobright_library::motor_off(void)
+bool gogobright_library::turnMotorOFF(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_OFF, 0))
     {
@@ -194,7 +194,7 @@ bool gogobright_library::motor_off(void)
 
     return true;
 }
-bool gogobright_library::motor_turn_cw(void)
+bool gogobright_library::turnMotorCW(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_CW, 1))
     {
@@ -203,7 +203,7 @@ bool gogobright_library::motor_turn_cw(void)
 
     return true;
 }
-bool gogobright_library::motor_turn_ccw(void)
+bool gogobright_library::turnMotorCCW(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_CCW, 0))
     {
@@ -212,7 +212,7 @@ bool gogobright_library::motor_turn_ccw(void)
 
     return true;
 }
-bool gogobright_library::motor_toggle_direction(void)
+bool gogobright_library::toggleMotorDirection(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_RD, 1))
     {
@@ -222,7 +222,7 @@ bool gogobright_library::motor_toggle_direction(void)
     return true;
 }
 
-bool gogobright_library::i2c_write(uint8_t addr, uint8_t reg, uint8_t value)
+bool gogobright_library::i2cWrite(uint8_t addr, uint8_t reg, uint8_t value)
 {
     if (!wireWriteDataByteToAddr(CMD_I2C_WRITE, addr, reg, value))
     {
@@ -231,7 +231,7 @@ bool gogobright_library::i2c_write(uint8_t addr, uint8_t reg, uint8_t value)
 
     return true;
 }
-uint8_t gogobright_library::i2c_read(uint8_t addr, uint8_t reg)
+uint8_t gogobright_library::i2cRead(uint8_t addr, uint8_t reg)
 {
     uint8_t val_byte = 0;
     if (!wireReadDataByteFromAddr(CMD_I2C_READ, addr, reg, val_byte))
