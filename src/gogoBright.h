@@ -73,17 +73,17 @@ public:
   bool turnServoCCW(int ccw_angle);
 
   //* Motor functions
-  //? set motors to interact with ..
-  bool talkToMotor(String motor_port);
-  //? set motors power
-  bool setMotorPower(int power);
-  //? turn motors on or off
-  bool turnMotorON(void);
-  bool turnMotorOFF(void);
-  //? turn motors direction
-  bool turnMotorCW(void);
-  bool turnMotorCCW(void);
-  bool toggleMotorDirection(void);
+  //? set output to interact with ..
+  bool talkToOutput(String output_port);
+  //? set output power
+  bool setOutputPower(int power);
+  //? turn outputs on or off
+  bool turnOutputON(void);
+  bool turnOutputOFF(void);
+  //? turn outputs direction
+  bool turnOutputThisWay(void);
+  bool turnOutputThatWay(void);
+  bool toggleOutputWay(void);
 
   //* I2C onboard functions
   bool i2cWrite(uint8_t addr, uint8_t reg, uint8_t value);

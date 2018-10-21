@@ -129,29 +129,29 @@ bool gogobright_library::turnServoCCW(int ccw_angle)
     return true;
 }
 
-bool gogobright_library::talkToMotor(String motor_port)
+bool gogobright_library::talkToOutput(String output_port)
 {
     uint8_t motorBits = 0;
-    motor_port.toLowerCase();
+    output_port.toLowerCase();
 
-    if (motor_port.length() < 1 || motor_port.length() > 4)
+    if (output_port.length() < 1 || output_port.length() > 4)
         return false;
 
     for (int i = 0; i < 4; i++)
     {
-        if (motor_port[i] == 'a')
+        if (output_port[i] == 'a')
         {
             motorBits |= 1;
         }
-        else if (motor_port[i] == 'b')
+        else if (output_port[i] == 'b')
         {
             motorBits |= 2;
         }
-        else if (motor_port[i] == 'c')
+        else if (output_port[i] == 'c')
         {
             motorBits |= 4;
         }
-        else if (motor_port[i] == 'd')
+        else if (output_port[i] == 'd')
         {
             motorBits |= 8;
         }
@@ -164,7 +164,7 @@ bool gogobright_library::talkToMotor(String motor_port)
 
     return true;
 }
-bool gogobright_library::setMotorPower(int power)
+bool gogobright_library::setOutputPower(int power)
 {
     if (power < 0 || power > 100)
         return false;
@@ -176,7 +176,7 @@ bool gogobright_library::setMotorPower(int power)
 
     return true;
 }
-bool gogobright_library::turnMotorON(void)
+bool gogobright_library::turnOutputON(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_ON, 1))
     {
@@ -185,7 +185,7 @@ bool gogobright_library::turnMotorON(void)
 
     return true;
 }
-bool gogobright_library::turnMotorOFF(void)
+bool gogobright_library::turnOutputOFF(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_OFF, 0))
     {
@@ -194,7 +194,7 @@ bool gogobright_library::turnMotorOFF(void)
 
     return true;
 }
-bool gogobright_library::turnMotorCW(void)
+bool gogobright_library::turnOutputThisWay(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_CW, 1))
     {
@@ -203,7 +203,7 @@ bool gogobright_library::turnMotorCW(void)
 
     return true;
 }
-bool gogobright_library::turnMotorCCW(void)
+bool gogobright_library::turnOutputThatWay(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_CCW, 0))
     {
@@ -212,7 +212,7 @@ bool gogobright_library::turnMotorCCW(void)
 
     return true;
 }
-bool gogobright_library::toggleMotorDirection(void)
+bool gogobright_library::toggleOutputWay(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_RD, 1))
     {

@@ -7,6 +7,9 @@ void setup()
     Serial.begin(115200);
     gogoIO.begin();
     delay(100);
+
+    gogoIO.talkToOutput("abcd");
+    gogoIO.talkToServo("1234");
 }
 
 void loop()
@@ -17,16 +20,12 @@ void loop()
 
     if (sensor > 600)
     {
-        gogoIO.talkToMotor("cd");
-        gogoIO.talkToServo("1234");
-        gogoIO.turnMotorOFF();
+        gogoIO.turnOutputOFF();
         gogoIO.setServoHead(40);
     }
     else if (sensor < 400)
     {
-        gogoIO.talkToMotor("cd");
-        gogoIO.talkToServo("1234");
-        gogoIO.turnMotorON();
+        gogoIO.turnOutputON();
         gogoIO.setServoHead(140);
     }
     delay(100);
