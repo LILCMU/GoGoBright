@@ -1,6 +1,6 @@
 #include "gogoBright.h"
 
-gogobright_library gogoIO;
+gogoBrightLib gogoIO;
 
 void setup()
 {

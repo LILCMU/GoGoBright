@@ -37,7 +37,7 @@
 #define CMD_I2C_WRITE 107
 #define CMD_I2C_READ 108
 
-class gogobright_library
+class gogoBrightLib
 {
 private:
   int8_t _i2cAddr;
@@ -53,8 +53,8 @@ private:
   bool wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t &val);
 
 public:
-  gogobright_library(void);
-  ~gogobright_library(void);
+  gogoBrightLib(void);
+  ~gogoBrightLib(void);
 
   bool begin(int8_t i2cAddr = GOGOBRIGHT_I2C_ADDRESS);
 
