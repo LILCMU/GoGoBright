@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include "gogoBright.h"
+#include "GoGoBright.h"
 
 GoGoBrightLib::GoGoBrightLib(void)
 {

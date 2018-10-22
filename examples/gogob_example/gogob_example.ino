@@ -1,6 +1,6 @@
-#include "gogoBright.h"
+#include "GoGoBright.h"
 
-GoGoBrightLib gogoIO;
+GoGoBright gogoIO;
 
 void setup()
 {

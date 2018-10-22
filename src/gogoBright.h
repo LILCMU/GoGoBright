@@ -90,4 +90,6 @@ public:
   uint8_t i2cRead(uint8_t addr, uint8_t reg);
 };
 
+class GoGoBright: public GoGoBrightLib {};
+
 #endif
