@@ -79,10 +79,6 @@ bool gogobright_library::talkToServo(String servo_port)
         {
             servoBits |= 8;
         }
-        else
-        {
-            return false;
-        }
     }
 
     if (!wireWriteDataByte(CMD_SERVO_ACTIVE, servoBits))
