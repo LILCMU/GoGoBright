@@ -2,14 +2,14 @@
 #include <Wire.h>
 #include "gogoBright.h"
 
-gogoBrightLib::gogoBrightLib(void)
+GoGoBrightLib::GoGoBrightLib(void)
 {
 }
-gogoBrightLib::~gogoBrightLib(void)
+GoGoBrightLib::~GoGoBrightLib(void)
 {
 }
 
-bool gogoBrightLib::begin(int8_t i2cAddr)
+bool GoGoBrightLib::begin(int8_t i2cAddr)
 {
     uint8_t id;
 
@@ -29,7 +29,7 @@ bool gogoBrightLib::begin(int8_t i2cAddr)
     return true;
 }
 
-int gogoBrightLib::readInput(int port)
+int GoGoBrightLib::readInput(int port)
 {
     // if (port < 1 || port > 4)
     if (port < 1 || port > 3) //* temporary fix due to hw issues
@@ -54,7 +54,7 @@ int gogoBrightLib::readInput(int port)
     return val + val_byte;
 }
 
-bool gogoBrightLib::talkToServo(String servo_port)
+bool GoGoBrightLib::talkToServo(String servo_port)
 {
     uint8_t servoBits = 0;
 
@@ -88,7 +88,7 @@ bool gogoBrightLib::talkToServo(String servo_port)
 
     return true;
 }
-bool gogoBrightLib::setServoHead(int head_angle)
+bool GoGoBrightLib::setServoHead(int head_angle)
 {
     if (head_angle < 0 || head_angle > 180)
         return false;
@@ -100,7 +100,7 @@ bool gogoBrightLib::setServoHead(int head_angle)
 
     return true;
 }
-bool gogoBrightLib::turnServoCW(int cw_angle)
+bool GoGoBrightLib::turnServoCW(int cw_angle)
 {
     if (cw_angle < 0 || cw_angle > 180)
         return false;
@@ -112,7 +112,7 @@ bool gogoBrightLib::turnServoCW(int cw_angle)
 
     return true;
 }
-bool gogoBrightLib::turnServoCCW(int ccw_angle)
+bool GoGoBrightLib::turnServoCCW(int ccw_angle)
 {
     if (ccw_angle < 0 || ccw_angle > 180)
         return false;
@@ -125,7 +125,7 @@ bool gogoBrightLib::turnServoCCW(int ccw_angle)
     return true;
 }
 
-bool gogoBrightLib::talkToOutput(String output_port)
+bool GoGoBrightLib::talkToOutput(String output_port)
 {
     uint8_t motorBits = 0;
     output_port.toLowerCase();
@@ -160,7 +160,7 @@ bool gogoBrightLib::talkToOutput(String output_port)
 
     return true;
 }
-bool gogoBrightLib::setOutputPower(int power)
+bool GoGoBrightLib::setOutputPower(int power)
 {
     if (power < 0 || power > 100)
         return false;
@@ -172,7 +172,7 @@ bool gogoBrightLib::setOutputPower(int power)
 
     return true;
 }
-bool gogoBrightLib::turnOutputON(void)
+bool GoGoBrightLib::turnOutputON(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_ON, 1))
     {
@@ -181,7 +181,7 @@ bool gogoBrightLib::turnOutputON(void)
 
     return true;
 }
-bool gogoBrightLib::turnOutputOFF(void)
+bool GoGoBrightLib::turnOutputOFF(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_OFF, 0))
     {
@@ -190,7 +190,7 @@ bool gogoBrightLib::turnOutputOFF(void)
 
     return true;
 }
-bool gogoBrightLib::turnOutputThisWay(void)
+bool GoGoBrightLib::turnOutputThisWay(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_CW, 1))
     {
@@ -199,7 +199,7 @@ bool gogoBrightLib::turnOutputThisWay(void)
 
     return true;
 }
-bool gogoBrightLib::turnOutputThatWay(void)
+bool GoGoBrightLib::turnOutputThatWay(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_CCW, 0))
     {
@@ -208,7 +208,7 @@ bool gogoBrightLib::turnOutputThatWay(void)
 
     return true;
 }
-bool gogoBrightLib::toggleOutputWay(void)
+bool GoGoBrightLib::toggleOutputWay(void)
 {
     if (!wireWriteDataByte(CMD_MOTOR_RD, 1))
     {
@@ -218,7 +218,7 @@ bool gogoBrightLib::toggleOutputWay(void)
     return true;
 }
 
-bool gogoBrightLib::i2cWrite(uint8_t addr, uint8_t reg, uint8_t value)
+bool GoGoBrightLib::i2cWrite(uint8_t addr, uint8_t reg, uint8_t value)
 {
     if (!wireWriteDataByteToAddr(CMD_I2C_WRITE, addr, reg, value))
     {
@@ -227,7 +227,7 @@ bool gogoBrightLib::i2cWrite(uint8_t addr, uint8_t reg, uint8_t value)
 
     return true;
 }
-uint8_t gogoBrightLib::i2cRead(uint8_t addr, uint8_t reg)
+uint8_t GoGoBrightLib::i2cRead(uint8_t addr, uint8_t reg)
 {
     uint8_t val_byte = 0;
     if (!wireReadDataByteFromAddr(CMD_I2C_READ, addr, reg, val_byte))
@@ -249,7 +249,7 @@ uint8_t gogoBrightLib::i2cRead(uint8_t addr, uint8_t reg)
  * @param[in] val the 1-byte value to write to the I2C device
  * @return True if successful write operation. False otherwise.
  */
-bool gogoBrightLib::wireWriteByte(uint8_t val)
+bool GoGoBrightLib::wireWriteByte(uint8_t val)
 {
     Wire.beginTransmission(_i2cAddr);
     Wire.write(val);
@@ -268,7 +268,7 @@ bool gogoBrightLib::wireWriteByte(uint8_t val)
  * @param[in] val the 1-byte value to write to the I2C device
  * @return True if successful write operation. False otherwise.
  */
-bool gogoBrightLib::wireWriteDataByte(uint8_t reg, uint8_t val)
+bool GoGoBrightLib::wireWriteDataByte(uint8_t reg, uint8_t val)
 {
     Wire.beginTransmission(_i2cAddr);
     Wire.write(reg);
@@ -281,7 +281,7 @@ bool gogoBrightLib::wireWriteDataByte(uint8_t reg, uint8_t val)
     return true;
 }
 
-bool gogoBrightLib::wireWriteDataByteToAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val)
+bool GoGoBrightLib::wireWriteDataByteToAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val)
 {
     Wire.beginTransmission(_i2cAddr);
     Wire.write(cmd);
@@ -304,7 +304,7 @@ bool gogoBrightLib::wireWriteDataByteToAddr(uint8_t cmd, uint8_t addr, uint8_t r
  * @param[in] len the length (in bytes) of the data to write
  * @return True if successful write operation. False otherwise.
  */
-bool gogoBrightLib::wireWriteDataBlock(uint8_t reg,
+bool GoGoBrightLib::wireWriteDataBlock(uint8_t reg,
                                             uint8_t *val,
                                             unsigned int len)
 {
@@ -331,7 +331,7 @@ bool gogoBrightLib::wireWriteDataBlock(uint8_t reg,
  * @param[out] the value returned from the register
  * @return True if successful read operation. False otherwise.
  */
-bool gogoBrightLib::wireReadDataByte(uint8_t reg, uint8_t &val)
+bool GoGoBrightLib::wireReadDataByte(uint8_t reg, uint8_t &val)
 {
 
     /* Indicate which register we want to read from */
@@ -350,7 +350,7 @@ bool gogoBrightLib::wireReadDataByte(uint8_t reg, uint8_t &val)
     return true;
 }
 
-bool gogoBrightLib::wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t &val)
+bool GoGoBrightLib::wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t &val)
 {
     Wire.beginTransmission(_i2cAddr);
     Wire.write(cmd);
@@ -379,7 +379,7 @@ bool gogoBrightLib::wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t 
  * @param[in] len number of bytes to read
  * @return Number of bytes read. -1 on read error.
  */
-int gogoBrightLib::wireReadDataBlock(uint8_t reg,
+int GoGoBrightLib::wireReadDataBlock(uint8_t reg,
                                           uint8_t *val,
                                           unsigned int len)
 {

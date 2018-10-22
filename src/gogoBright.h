@@ -1,5 +1,5 @@
-#ifndef __gogoBrightLib__
-#define __gogoBrightLib__
+#ifndef __GoGoBrightLib__
+#define __GoGoBrightLib__
 
 #include <Arduino.h>
 
@@ -37,7 +37,7 @@
 #define CMD_I2C_WRITE 107
 #define CMD_I2C_READ 108
 
-class gogoBrightLib
+class GoGoBrightLib
 {
 private:
   int8_t _i2cAddr;
@@ -53,8 +53,8 @@ private:
   bool wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t &val);
 
 public:
-  gogoBrightLib(void);
-  ~gogoBrightLib(void);
+  GoGoBrightLib(void);
+  ~GoGoBrightLib(void);
 
   bool begin(int8_t i2cAddr = GOGOBRIGHT_I2C_ADDRESS);
 
