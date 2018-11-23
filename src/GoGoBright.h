@@ -20,19 +20,21 @@
 
 //* ///////////////////////////////////
 //* Commands I2C
+#define CATEGORY_CMD  0
 //* servo
-#define CMD_SERVO_ACTIVE 91
-#define CMD_SERVO_SETH 87
-#define CMD_SERVO_CCW 88
-#define CMD_SERVO_CW 89
+#define CMD_SERVO_SETH 9
+#define CMD_SERVO_ACTIVE 14
+// #define CMD_SERVO_CCW 88
+// #define CMD_SERVO_CW 89
 //* motor
-#define CMD_MOTOR_ACTIVE 90
-#define CMD_MOTOR_ON 49
-#define CMD_MOTOR_OFF 51
-#define CMD_MOTOR_CCW 52
-#define CMD_MOTOR_CW 53
-#define CMD_MOTOR_RD 54
-#define CMD_MOTOR_PWR 59
+#define CMD_MOTOR_ONOFF 2
+// #define CMD_MOTOR_OFF 51
+#define CMD_MOTOR_DIR 3
+// #define CMD_MOTOR_CW 53
+#define CMD_MOTOR_RD 4
+#define CMD_MOTOR_PWR 6
+#define CMD_MOTOR_ACTIVE 7
+#define CMD_TOGGLE_ACTIVE 8
 //* i2c
 #define CMD_I2C_WRITE 107
 #define CMD_I2C_READ 108
@@ -44,12 +46,12 @@ private:
 
   //* Raw I2C Commands to control GoGoBright ref: SparkFun_APDS9960 Library
   bool wireWriteByte(uint8_t val);
-  bool wireWriteDataByte(uint8_t reg, uint8_t val);
-  bool wireWriteDataBlock(uint8_t reg, uint8_t *val, unsigned int len);
+  bool wireWriteDataByte(uint8_t category, uint8_t reg, uint8_t val);
+  bool wireWriteDataBlock(uint8_t category, uint8_t reg, uint8_t *val, unsigned int len);
   bool wireReadDataByte(uint8_t reg, uint8_t &val);
   int wireReadDataBlock(uint8_t reg, uint8_t *val, unsigned int len);
 
-  bool wireWriteDataByteToAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val);
+  bool wireWriteDataByteToAddr(uint8_t category, uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val);
   bool wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t &val);
 
 public:
@@ -68,9 +70,9 @@ public:
   //? set servos head to input head_angle
   bool setServoHead(int head_angle);
   //? turn servos clockwise by input angle
-  bool turnServoCW(int cw_angle);
+  // bool turnServoCW(int cw_angle);
   //? turn servos counter-clockwise by input angle
-  bool turnServoCCW(int ccw_angle);
+  // bool turnServoCCW(int ccw_angle);
 
   //* Motor functions
   //? set output to interact with ..
@@ -78,18 +80,24 @@ public:
   //? set output power
   bool setOutputPower(int power);
   //? turn outputs on or off
-  bool turnOutputON(void);
-  bool turnOutputOFF(void);
+  bool turnOutputONOFF(int state);
+  bool turnOutputONOFF(String stateStr);
+  // bool turnOutputON(void);
+  // bool turnOutputOFF(void);
   //? turn outputs direction
-  bool turnOutputThisWay(void);
-  bool turnOutputThatWay(void);
+  bool turnOutputDirection(int dir);
+  bool turnOutputDirection(String dirStr);
+  // bool turnOutputThisWay(void);
+  // bool turnOutputThatWay(void);
   bool toggleOutputWay(void);
 
   //* I2C onboard functions
-  bool i2cWrite(uint8_t addr, uint8_t reg, uint8_t value);
-  uint8_t i2cRead(uint8_t addr, uint8_t reg);
+  // bool i2cWrite(uint8_t addr, uint8_t reg, uint8_t value);
+  // uint8_t i2cRead(uint8_t addr, uint8_t reg);
 };
 
-class GoGoBright: public GoGoBrightLib {};
+class GoGoBright : public GoGoBrightLib
+{
+};
 
 #endif

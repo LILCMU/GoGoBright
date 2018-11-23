@@ -31,8 +31,7 @@ bool GoGoBrightLib::begin(int8_t i2cAddr)
 
 int GoGoBrightLib::readInput(int port)
 {
-    // if (port < 1 || port > 4)
-    if (port < 1 || port > 3) //* temporary fix due to hw issues
+    if (port < 1 || port > 4)
         return 0;
 
     uint8_t val_byte;
@@ -81,7 +80,7 @@ bool GoGoBrightLib::talkToServo(String servo_port)
         }
     }
 
-    if (!wireWriteDataByte(CMD_SERVO_ACTIVE, servoBits))
+    if (!wireWriteDataByte(CATEGORY_CMD, CMD_SERVO_ACTIVE, servoBits))
     {
         return false;
     }
@@ -93,37 +92,38 @@ bool GoGoBrightLib::setServoHead(int head_angle)
     if (head_angle < 0 || head_angle > 180)
         return false;
 
-    if (!wireWriteDataByte(CMD_SERVO_SETH, head_angle))
+    uint8_t dataTmp[3] = {0, (head_angle >> 8), (head_angle & 0xFF)};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_SERVO_SETH, dataTmp, 3))
     {
         return false;
     }
 
     return true;
 }
-bool GoGoBrightLib::turnServoCW(int cw_angle)
-{
-    if (cw_angle < 0 || cw_angle > 180)
-        return false;
+// bool GoGoBrightLib::turnServoCW(int cw_angle)
+// {
+//     if (cw_angle < 0 || cw_angle > 180)
+//         return false;
 
-    if (!wireWriteDataByte(CMD_SERVO_CW, cw_angle))
-    {
-        return false;
-    }
+//     if (!wireWriteDataByte(CMD_SERVO_CW, cw_angle))
+//     {
+//         return false;
+//     }
 
-    return true;
-}
-bool GoGoBrightLib::turnServoCCW(int ccw_angle)
-{
-    if (ccw_angle < 0 || ccw_angle > 180)
-        return false;
+//     return true;
+// }
+// bool GoGoBrightLib::turnServoCCW(int ccw_angle)
+// {
+//     if (ccw_angle < 0 || ccw_angle > 180)
+//         return false;
 
-    if (!wireWriteDataByte(CMD_SERVO_CCW, ccw_angle))
-    {
-        return false;
-    }
+//     if (!wireWriteDataByte(CMD_SERVO_CCW, ccw_angle))
+//     {
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 bool GoGoBrightLib::talkToOutput(String output_port)
 {
@@ -153,7 +153,7 @@ bool GoGoBrightLib::talkToOutput(String output_port)
         }
     }
 
-    if (!wireWriteDataByte(CMD_MOTOR_ACTIVE, motorBits))
+    if (!wireWriteDataByte(CATEGORY_CMD, CMD_MOTOR_ACTIVE, motorBits))
     {
         return false;
     }
@@ -165,52 +165,117 @@ bool GoGoBrightLib::setOutputPower(int power)
     if (power < 0 || power > 100)
         return false;
 
-    if (!wireWriteDataByte(CMD_MOTOR_PWR, power))
+    uint8_t dataTmp[3] = {0, power >> 8, power & 0xFF};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_PWR, dataTmp, 3))
     {
         return false;
     }
 
     return true;
 }
-bool GoGoBrightLib::turnOutputON(void)
+bool GoGoBrightLib::turnOutputONOFF(int state)
 {
-    if (!wireWriteDataByte(CMD_MOTOR_ON, 1))
+    state &= 1;
+    uint8_t dataTmp[2] = {0, state};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_ONOFF, dataTmp, 2))
     {
         return false;
     }
 
     return true;
 }
-bool GoGoBrightLib::turnOutputOFF(void)
+bool GoGoBrightLib::turnOutputONOFF(String stateStr)
 {
-    if (!wireWriteDataByte(CMD_MOTOR_OFF, 0))
+    int state = 0;
+    stateStr.toLowerCase();
+    if (stateStr.length() < 1 || stateStr.length() > 4)
+        return false;
+
+    if (stateStr == "on" | stateStr == "1")
+    {
+        state = 1;
+    }
+    else if (stateStr == "off" | stateStr == "0")
+    {
+        state = 0;
+    }
+    else
+    {
+        return false;
+    }
+    uint8_t dataTmp[2] = {0, state};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_ONOFF, dataTmp, 2))
     {
         return false;
     }
 
     return true;
 }
-bool GoGoBrightLib::turnOutputThisWay(void)
+// bool GoGoBrightLib::turnOutputOFF(void)
+// {
+//     if (!wireWriteDataByte(CMD_MOTOR_OFF, 0))
+//     {
+//         return false;
+//     }
+
+//     return true;
+// }
+bool GoGoBrightLib::turnOutputDirection(int dir)
 {
-    if (!wireWriteDataByte(CMD_MOTOR_CW, 1))
+    dir &= 1; //* 1=CW, 0=CCW
+    uint8_t dataTmp[2] = {0, dir};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_DIR, dataTmp, 2))
     {
         return false;
     }
 
     return true;
 }
-bool GoGoBrightLib::turnOutputThatWay(void)
+bool GoGoBrightLib::turnOutputDirection(String dirStr)
 {
-    if (!wireWriteDataByte(CMD_MOTOR_CCW, 0))
+    int dir = 0;
+    dirStr.toLowerCase();
+    if (dirStr == "left" | dirStr == "l" | dirStr == "ccw" | dirStr == "counter-clockwise")
+    {
+        dir = 0;
+    }
+    else if (dirStr == "right" | dirStr == "r" | dirStr == "cw" | dirStr == "clockwise")
+    {
+        dir = 1;
+    }
+    else
+    {
+        return false;
+    }
+    uint8_t dataTmp[2] = {0, dir};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_DIR, dataTmp, 2))
     {
         return false;
     }
 
     return true;
 }
+// bool GoGoBrightLib::turnOutputThisWay(void)
+// {
+//     if (!wireWriteDataByte(CMD_MOTOR_CW, 1))
+//     {
+//         return false;
+//     }
+
+//     return true;
+// }
+// bool GoGoBrightLib::turnOutputThatWay(void)
+// {
+//     if (!wireWriteDataByte(CMD_MOTOR_CCW, 0))
+//     {
+//         return false;
+//     }
+
+//     return true;
+// }
 bool GoGoBrightLib::toggleOutputWay(void)
 {
-    if (!wireWriteDataByte(CMD_MOTOR_RD, 1))
+    if (!wireWriteDataByte(CATEGORY_CMD, CMD_MOTOR_RD, 0))
     {
         return false;
     }
@@ -218,25 +283,25 @@ bool GoGoBrightLib::toggleOutputWay(void)
     return true;
 }
 
-bool GoGoBrightLib::i2cWrite(uint8_t addr, uint8_t reg, uint8_t value)
-{
-    if (!wireWriteDataByteToAddr(CMD_I2C_WRITE, addr, reg, value))
-    {
-        return false;
-    }
+// bool GoGoBrightLib::i2cWrite(uint8_t addr, uint8_t reg, uint8_t value)
+// {
+//     if (!wireWriteDataByteToAddr(CMD_I2C_WRITE, addr, reg, value))
+//     {
+//         return false;
+//     }
 
-    return true;
-}
-uint8_t GoGoBrightLib::i2cRead(uint8_t addr, uint8_t reg)
-{
-    uint8_t val_byte = 0;
-    if (!wireReadDataByteFromAddr(CMD_I2C_READ, addr, reg, val_byte))
-    {
-        return 0;
-    }
+//     return true;
+// }
+// uint8_t GoGoBrightLib::i2cRead(uint8_t addr, uint8_t reg)
+// {
+//     uint8_t val_byte = 0;
+//     if (!wireReadDataByteFromAddr(CMD_I2C_READ, addr, reg, val_byte))
+//     {
+//         return 0;
+//     }
 
-    return val_byte;
-}
+//     return val_byte;
+// }
 
 //* Reference from SparkFun_APDS9960 Library
 /*******************************************************************************
@@ -268,10 +333,11 @@ bool GoGoBrightLib::wireWriteByte(uint8_t val)
  * @param[in] val the 1-byte value to write to the I2C device
  * @return True if successful write operation. False otherwise.
  */
-bool GoGoBrightLib::wireWriteDataByte(uint8_t reg, uint8_t val)
+bool GoGoBrightLib::wireWriteDataByte(uint8_t category, uint8_t cmd, uint8_t val)
 {
     Wire.beginTransmission(_i2cAddr);
-    Wire.write(reg);
+    Wire.write(category);
+    Wire.write(cmd);
     Wire.write(val);
     if (Wire.endTransmission() != 0)
     {
@@ -281,9 +347,10 @@ bool GoGoBrightLib::wireWriteDataByte(uint8_t reg, uint8_t val)
     return true;
 }
 
-bool GoGoBrightLib::wireWriteDataByteToAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val)
+bool GoGoBrightLib::wireWriteDataByteToAddr(uint8_t category, uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val)
 {
     Wire.beginTransmission(_i2cAddr);
+    Wire.write(category);
     Wire.write(cmd);
     Wire.write(addr);
     Wire.write(reg);
@@ -304,18 +371,14 @@ bool GoGoBrightLib::wireWriteDataByteToAddr(uint8_t cmd, uint8_t addr, uint8_t r
  * @param[in] len the length (in bytes) of the data to write
  * @return True if successful write operation. False otherwise.
  */
-bool GoGoBrightLib::wireWriteDataBlock(uint8_t reg,
-                                            uint8_t *val,
-                                            unsigned int len)
+bool GoGoBrightLib::wireWriteDataBlock(uint8_t category, uint8_t cmd, uint8_t *val, unsigned int len)
 {
     unsigned int i;
 
     Wire.beginTransmission(_i2cAddr);
-    Wire.write(reg);
-    for (i = 0; i < len; i++)
-    {
-        Wire.beginTransmission(val[i]);
-    }
+    Wire.write(category);
+    Wire.write(cmd);
+    Wire.write(val, len);
     if (Wire.endTransmission() != 0)
     {
         return false;
@@ -380,8 +443,8 @@ bool GoGoBrightLib::wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t 
  * @return Number of bytes read. -1 on read error.
  */
 int GoGoBrightLib::wireReadDataBlock(uint8_t reg,
-                                          uint8_t *val,
-                                          unsigned int len)
+                                     uint8_t *val,
+                                     unsigned int len)
 {
     unsigned char i = 0;
 
