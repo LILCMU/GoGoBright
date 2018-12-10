@@ -26,7 +26,7 @@ void loop()
     else if (sensor < 400)
     {
         gogoIO.turnOutputON();
-        gogoIO.setServoHead(140);
+        gogoIO.turnServoThisWay(10);
     }
     delay(100);
 }

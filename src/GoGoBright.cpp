@@ -108,7 +108,8 @@ bool GoGoBrightLib::turnServoThisWay(int cw_angle)
     if (cw_angle < 0 || cw_angle > 180)
         return false;
 
-    if (!wireWriteDataByte(CMD_SERVO_CW, cw_angle))
+    uint8_t dataTmp[3] = {0, cw_angle >> 8, cw_angle & 0xFF};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_SERVO_THISWAY, dataTmp, 3))
     {
         return false;
     }
@@ -120,7 +121,8 @@ bool GoGoBrightLib::turnServoThatWay(int ccw_angle)
     if (ccw_angle < 0 || ccw_angle > 180)
         return false;
 
-    if (!wireWriteDataByte(CMD_SERVO_CCW, ccw_angle))
+    uint8_t dataTmp[3] = {0, ccw_angle >> 8, ccw_angle & 0xFF};
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_SERVO_THATWAY, dataTmp, 3))
     {
         return false;
     }
