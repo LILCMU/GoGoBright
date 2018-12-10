@@ -24,9 +24,9 @@
 //* servo
 #define CMD_SERVO_SETH 9
 #define CMD_SERVO_ACTIVE 14
+#define CMD_SERVO_THISWAY 15
+#define CMD_SERVO_THATWAY 16
 #define CMD_SERVO_SET_ANGLE 17
-// #define CMD_SERVO_CCW 88
-// #define CMD_SERVO_CW 89
 //* motor
 #define CMD_MOTOR_ONOFF 2
 // #define CMD_MOTOR_OFF 51
@@ -76,6 +76,10 @@ public:
   bool talkToServo(String servo_port);
   //? set servos head to input head_angle
   bool setServoHead(int head_angle);
+  //? turn servos clockwise by input angle
+  bool turnServoThisWay(int cw_angle);
+  //? turn servos counter-clockwise by input angle
+  bool turnServoThatWay(int ccw_angle);
 
   //* Motor functions
   //? set output to interact with ..

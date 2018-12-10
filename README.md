@@ -21,6 +21,8 @@ GoGoBright gogoIO;
 ||
 |**Servo**       |`talkToServo(`**"param"**`)`  |port name (A,B,C,D)   |Boolean
 |                |`setServoHead(`**param**`)`    |servo angle (0-180)  |Boolean
+|                |`setServoThisWay(`**param**`)` |servo angle (0-180)  |Boolean
+|                |`setServoThatWay(`**param**`)` |servo angle (0-180)  |Boolean
 ||
 |**Output**      |`talkToOutput(`**"param"**`)` |port name (1,2,3,4)  |Boolean
 |                |`setOutputPower(`**param**`)`  |power value (0-100)  |Boolean

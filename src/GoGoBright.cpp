@@ -103,6 +103,31 @@ bool GoGoBrightLib::setServoHead(int head_angle)
 
     return true;
 }
+bool GoGoBrightLib::turnServoThisWay(int cw_angle)
+{
+    if (cw_angle < 0 || cw_angle > 180)
+        return false;
+
+    if (!wireWriteDataByte(CMD_SERVO_CW, cw_angle))
+    {
+        return false;
+    }
+
+    return true;
+}
+bool GoGoBrightLib::turnServoThatWay(int ccw_angle)
+{
+    if (ccw_angle < 0 || ccw_angle > 180)
+        return false;
+
+    if (!wireWriteDataByte(CMD_SERVO_CCW, ccw_angle))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 bool GoGoBrightLib::talkToOutput(String output_port)
 {
     uint8_t motorBits = 0;
