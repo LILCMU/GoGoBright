@@ -92,39 +92,17 @@ bool GoGoBrightLib::setServoHead(int head_angle)
     if (head_angle < 0 || head_angle > 180)
         return false;
 
+    //! add this line for gogo5 report compatibility
+    // head_angle = map(head_angle, 0, 180, 10, 40);
+
     uint8_t dataTmp[3] = {0, (head_angle >> 8), (head_angle & 0xFF)};
-    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_SERVO_SETH, dataTmp, 3))
+    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_SERVO_SET_ANGLE, dataTmp, 3))
     {
         return false;
     }
 
     return true;
 }
-// bool GoGoBrightLib::turnServoCW(int cw_angle)
-// {
-//     if (cw_angle < 0 || cw_angle > 180)
-//         return false;
-
-//     if (!wireWriteDataByte(CMD_SERVO_CW, cw_angle))
-//     {
-//         return false;
-//     }
-
-//     return true;
-// }
-// bool GoGoBrightLib::turnServoCCW(int ccw_angle)
-// {
-//     if (ccw_angle < 0 || ccw_angle > 180)
-//         return false;
-
-//     if (!wireWriteDataByte(CMD_SERVO_CCW, ccw_angle))
-//     {
-//         return false;
-//     }
-
-//     return true;
-// }
-
 bool GoGoBrightLib::talkToOutput(String output_port)
 {
     uint8_t motorBits = 0;
@@ -184,42 +162,41 @@ bool GoGoBrightLib::turnOutputONOFF(int state)
 
     return true;
 }
-bool GoGoBrightLib::turnOutputONOFF(String stateStr)
-{
-    int state = 0;
-    stateStr.toLowerCase();
-    if (stateStr.length() < 1 || stateStr.length() > 4)
-        return false;
-
-    if (stateStr == "on" | stateStr == "1")
-    {
-        state = 1;
-    }
-    else if (stateStr == "off" | stateStr == "0")
-    {
-        state = 0;
-    }
-    else
-    {
-        return false;
-    }
-    uint8_t dataTmp[2] = {0, state};
-    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_ONOFF, dataTmp, 2))
-    {
-        return false;
-    }
-
-    return true;
-}
-// bool GoGoBrightLib::turnOutputOFF(void)
+// bool GoGoBrightLib::turnOutputONOFF(String stateStr)
 // {
-//     if (!wireWriteDataByte(CMD_MOTOR_OFF, 0))
+//     int state = 0;
+//     stateStr.toLowerCase();
+//     if (stateStr.length() < 1 || stateStr.length() > 4)
+//         return false;
+
+//     if (stateStr == "on" | stateStr == "1")
+//     {
+//         state = 1;
+//     }
+//     else if (stateStr == "off" | stateStr == "0")
+//     {
+//         state = 0;
+//     }
+//     else
+//     {
+//         return false;
+//     }
+//     uint8_t dataTmp[2] = {0, state};
+//     if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_ONOFF, dataTmp, 2))
 //     {
 //         return false;
 //     }
 
 //     return true;
 // }
+bool GoGoBrightLib::turnOutputON(void)
+{
+    return turnOutputONOFF(1);
+}
+bool GoGoBrightLib::turnOutputOFF(void)
+{
+    return turnOutputONOFF(0);
+}
 bool GoGoBrightLib::turnOutputDirection(int dir)
 {
     dir &= 1; //* 1=CW, 0=CCW
@@ -231,48 +208,38 @@ bool GoGoBrightLib::turnOutputDirection(int dir)
 
     return true;
 }
-bool GoGoBrightLib::turnOutputDirection(String dirStr)
+// bool GoGoBrightLib::turnOutputDirection(String dirStr)
+// {
+//     int dir = 0;
+//     dirStr.toLowerCase();
+//     if (dirStr == "left" | dirStr == "l" | dirStr == "ccw" | dirStr == "counter-clockwise")
+//     {
+//         dir = 0;
+//     }
+//     else if (dirStr == "right" | dirStr == "r" | dirStr == "cw" | dirStr == "clockwise")
+//     {
+//         dir = 1;
+//     }
+//     else
+//     {
+//         return false;
+//     }
+//     uint8_t dataTmp[2] = {0, dir};
+//     if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_DIR, dataTmp, 2))
+//     {
+//         return false;
+//     }
+
+//     return true;
+// }
+bool GoGoBrightLib::turnOutputThisWay(void)
 {
-    int dir = 0;
-    dirStr.toLowerCase();
-    if (dirStr == "left" | dirStr == "l" | dirStr == "ccw" | dirStr == "counter-clockwise")
-    {
-        dir = 0;
-    }
-    else if (dirStr == "right" | dirStr == "r" | dirStr == "cw" | dirStr == "clockwise")
-    {
-        dir = 1;
-    }
-    else
-    {
-        return false;
-    }
-    uint8_t dataTmp[2] = {0, dir};
-    if (!wireWriteDataBlock(CATEGORY_CMD, CMD_MOTOR_DIR, dataTmp, 2))
-    {
-        return false;
-    }
-
-    return true;
+    return turnOutputDirection(1);
 }
-// bool GoGoBrightLib::turnOutputThisWay(void)
-// {
-//     if (!wireWriteDataByte(CMD_MOTOR_CW, 1))
-//     {
-//         return false;
-//     }
-
-//     return true;
-// }
-// bool GoGoBrightLib::turnOutputThatWay(void)
-// {
-//     if (!wireWriteDataByte(CMD_MOTOR_CCW, 0))
-//     {
-//         return false;
-//     }
-
-//     return true;
-// }
+bool GoGoBrightLib::turnOutputThatWay(void)
+{
+    return turnOutputDirection(0);
+}
 bool GoGoBrightLib::toggleOutputWay(void)
 {
     if (!wireWriteDataByte(CATEGORY_CMD, CMD_MOTOR_RD, 0))

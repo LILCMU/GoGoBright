@@ -24,6 +24,7 @@
 //* servo
 #define CMD_SERVO_SETH 9
 #define CMD_SERVO_ACTIVE 14
+#define CMD_SERVO_SET_ANGLE 17
 // #define CMD_SERVO_CCW 88
 // #define CMD_SERVO_CW 89
 //* motor
@@ -54,6 +55,12 @@ private:
   bool wireWriteDataByteToAddr(uint8_t category, uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t val);
   bool wireReadDataByteFromAddr(uint8_t cmd, uint8_t addr, uint8_t reg, uint8_t &val);
 
+  bool turnOutputDirection(int dir);
+  // bool turnOutputDirection(String dirStr);
+
+  bool turnOutputONOFF(int state);
+  // bool turnOutputONOFF(String stateStr);
+
 public:
   GoGoBrightLib(void);
   ~GoGoBrightLib(void);
@@ -69,10 +76,6 @@ public:
   bool talkToServo(String servo_port);
   //? set servos head to input head_angle
   bool setServoHead(int head_angle);
-  //? turn servos clockwise by input angle
-  // bool turnServoCW(int cw_angle);
-  //? turn servos counter-clockwise by input angle
-  // bool turnServoCCW(int ccw_angle);
 
   //* Motor functions
   //? set output to interact with ..
@@ -80,15 +83,11 @@ public:
   //? set output power
   bool setOutputPower(int power);
   //? turn outputs on or off
-  bool turnOutputONOFF(int state);
-  bool turnOutputONOFF(String stateStr);
-  // bool turnOutputON(void);
-  // bool turnOutputOFF(void);
+  bool turnOutputON(void);
+  bool turnOutputOFF(void);
   //? turn outputs direction
-  bool turnOutputDirection(int dir);
-  bool turnOutputDirection(String dirStr);
-  // bool turnOutputThisWay(void);
-  // bool turnOutputThatWay(void);
+  bool turnOutputThisWay(void);
+  bool turnOutputThatWay(void);
   bool toggleOutputWay(void);
 
   //* I2C onboard functions

@@ -20,12 +20,12 @@ void loop()
 
     if (sensor > 600)
     {
-        gogoIO.turnOutputONOFF(0);
+        gogoIO.turnOutputOFF();
         gogoIO.setServoHead(40);
     }
     else if (sensor < 400)
     {
-        gogoIO.turnOutputONOFF(1);
+        gogoIO.turnOutputON();
         gogoIO.setServoHead(140);
     }
     delay(100);
